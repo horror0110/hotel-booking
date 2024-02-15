@@ -20,7 +20,6 @@ const Hotel: React.FC<HotelPageProps> = async ({ params }) => {
 
   if (hotel && hotel.userId !== userId) return <div>Access denied...</div>;
 
-  console.log(hotel)
   return (
     <div>
       <AddHotelForm hotel={hotel} />

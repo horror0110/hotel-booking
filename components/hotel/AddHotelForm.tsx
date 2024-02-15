@@ -1,7 +1,7 @@
 "use client";
 
 import { Hotel, Room } from "@prisma/client";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -11,6 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  Form
 } from "../ui/form";
 import { Input } from "../ui/input";
 
@@ -95,7 +96,7 @@ const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
           <FormField
             control={form.control}
             name="title"
-            render={({ field }) => (
+            render={({ field }) => (  
               <FormItem>
                 <FormLabel>Hotel Title</FormLabel>
 
