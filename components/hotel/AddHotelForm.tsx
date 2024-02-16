@@ -11,9 +11,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Form
+  Form,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Checkbox } from "../ui/checkbox";
 
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
@@ -68,7 +70,7 @@ const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
       image: "",
       country: "",
       state: "",
-      city: "",
+      city: "ub",
       locationDescription: "",
       gym: false,
       spa: false,
@@ -93,22 +95,291 @@ const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (  
-              <FormItem>
-                <FormLabel>Hotel Title</FormLabel>
+          <h3 className="text-lg font-semibold">
+            {hotel ? "Update your hotel!" : "Describe your hotel!"}
+          </h3>
 
-                <FormDescription>Provide your hotel name</FormDescription>
-                <FormControl>
-                  <Input placeholder="Beach Hotel" {...field} />
-                </FormControl>
-                
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex-1 flex flex-col gap-6">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }: any) => (
+                  <FormItem>
+                    <FormLabel>Hotel Title</FormLabel>
+
+                    <FormDescription>Provide your hotel name</FormDescription>
+                    <FormControl>
+                      <Input placeholder="Beach Hotel" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hotel Description</FormLabel>
+
+                    <FormDescription>
+                      Provide a detailed description of your hotel
+                    </FormDescription>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Beach Hotel is parked with many awesome amenitie!"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div>
+                <FormLabel>Choose Amenities</FormLabel>
+                <FormDescription>
+                  Choose Amenities popular in your hotel
+                </FormDescription>
+
+                <div className="grid grid-cols-2 gap-4 mt-2">
+                  <FormField
+                    control={form.control}
+                    name="gym"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Gym</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="spa"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Spa</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="bar"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Bar</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="laundry"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Laundry</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="swimmingPool"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Swimming Pool</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="coffeeShop"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Coffee shop</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="restaurant"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Restaurant</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="shopping"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Shopping</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="freeParking"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Free parking</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="bikeRental"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Bike rental</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="freeWifi"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Free wifi</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="movieNights"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+
+                        <FormLabel>Movie nights</FormLabel>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 flex flex-col gap-6">part 2</div>
+          </div>
         </form>
       </Form>
     </div>
