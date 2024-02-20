@@ -16,6 +16,13 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
+import { UploadButton } from "@/utils/uploadthing";
+import { useState } from "react";
+import { useToast } from "../ui/use-toast";
+import Image from "next/image";
+import { Loader2, XCircle } from "lucide-react";
+import { Button } from "../ui/button";
+import axios from "axios";
 
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
@@ -62,6 +69,11 @@ const formSchema = z.object({
 });
 
 const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
+  const [image, setImage] = useState<string | undefined>(hotel?.image);
+
+  const [imageIsDeleting, setImageIsDeleting] = useState(false);
+
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -90,6 +102,33 @@ const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
+  const handleImageDelete = (image: string) => {
+    setImageIsDeleting(true);
+
+    const imageKey = image.substring(image.lastIndexOf("/") + 1);
+
+    axios
+      .post("/api/uploadthing/delete", { imageKey })
+      .then((res) => {
+        if (res.data.success) {
+          setImage("");
+          toast({
+            variant: "success",
+            description: "image removed",
+          });
+        }
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          description: "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setImageIsDeleting(false);
+      });
+  };
 
   return (
     <div>
@@ -376,6 +415,62 @@ const AddHotelForm: React.FC<AddHotelFormProps> = ({ hotel }) => {
                   />
                 </div>
               </div>
+
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col space-y-3">
+                    <FormLabel>Upload an Image</FormLabel>
+
+                    <FormDescription>
+                      Choose an image that will show-case your hotel nicely
+                    </FormDescription>
+
+                    <FormControl>
+                      {image ? (
+                        <div className="relative max-w-[400px] min-w-[200px] max-h-[400px] min-h-[200px] mt-4">
+                          <Image
+                            fill
+                            src={image}
+                            alt="Hotel Image "
+                            className="object-contain"
+                          />
+                          <Button
+                            onClick={() => handleImageDelete(image)}
+                            type="button"
+                            size="icon"
+                            variant="ghost"
+                            className="absolute right-[-12px]"
+                          >
+                            {imageIsDeleting ? <Loader2 /> : <XCircle />}
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center max-w-[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
+                          <UploadButton
+                            endpoint="imageUploader"
+                            onClientUploadComplete={(res: any) => {
+                              setImage(res[0].url);
+
+                              toast({
+                                variant: "success",
+                                description: "Upload completed",
+                              });
+                            }}
+                            onUploadError={(error: Error) => {
+                              toast({
+                                variant: "destructive",
+                                description: `ERROR! ${error.message}`,
+                              });
+                            }}
+                          />
+                        </div>
+                      )}
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
 
             <div className="flex-1 flex flex-col gap-6">part 2</div>
